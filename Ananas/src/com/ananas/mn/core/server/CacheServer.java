@@ -1,43 +1,51 @@
 package com.ananas.mn.core.server;
 
-import com.ananas.mn.core.cache.Cache;
-import com.ananas.mn.core.client.BaseJdbcTemplateClient;
+import com.ananas.mn.core.client.DefaultJdbcTemplateClient;
+import com.ananas.mn.core.spring.SpringBeanInvoker;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class CacheServer extends DefaultServer {
 
-    private Cache cache ;
-    private ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+	private Cache cache;
+    private CacheManager cacheManager = CacheManager.create();
+    private DefaultJdbcTemplateClient defaultJdbcTemplateClient = new DefaultJdbcTemplateClient();
 
-    @Autowired
-    private BaseJdbcTemplateClient baseJdbcTemplateClient;
-
-    public CacheServer(Cache cache){
-        this.cache = cache;
-    }
-
+    private static final String SYS_CACHE = "sysCache";
+    
     @Override
     public void init() {
-        concurrentHashMap.put("testString",baseJdbcTemplateClient.getTestString());
+    	//cacheManager.init();
+    	//cache = cacheManager.getCache();
+    	//cache.put("testString",baseJdbcTemplateClient.getTestString());
+    	
+    	Cache simpleCache = new Cache(SYS_CACHE, 5000, false, false, 5, 2); 
+    	cacheManager.addCache(simpleCache);
+    	cache = cacheManager.getCache(SYS_CACHE);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void start() {
-        Iterator iterator = concurrentHashMap.entrySet().iterator();
+    	
+    	cache.put(new Element("testString","testString"));
+    	
+        @SuppressWarnings("rawtypes")
+		Iterator iterator = cache.getKeys().iterator();
         while(iterator.hasNext()){
-            Map m = (Map) iterator.next();
-            cache.put("testString",m.get("testString"));
+           System.out.println(iterator.next());
         }
     }
 
     @Override
     public void stop() {
-        concurrentHashMap = null;
-        cache = null;
+    	cacheManager.removalAll();
     }
 }

@@ -105,7 +105,7 @@
 		<scope>compile</scope>
 	</dependency>
 	
-	<!-- unit -->
+	<!-- junit -->
 	<dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>

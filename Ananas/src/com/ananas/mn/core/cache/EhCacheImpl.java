@@ -11,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public class EhCacheImpl implements  Cache<Object , Object> {
 
+	@Autowired
     private Ehcache ehcache;
 
     public Ehcache getEhcache() {

@@ -13,15 +13,9 @@ public class JavaCacheManagerImpl implements CacheManager {
     private String sqlQueryDbCacheVersion;
     private ConcurrentHashMap<Object , Object> versionMap = new ConcurrentHashMap<Object, Object>();
 
-    @Autowired
     private Cache<Object, Object> cache;
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    public Cache<Object, Object> getCache() {
-        return cache;
-    }
 
     public void setCache(Cache<Object, Object> cache) {
         this.cache = cache;
