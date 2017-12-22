@@ -18,9 +18,6 @@ public class EhCacheImpl implements  Cache<Object , Object> {
         return ehcache;
     }
 
-    public void setEhcache(Ehcache ehcache) {
-        this.ehcache = ehcache;
-    }
 
     @Override
     public Object put(Object key, Object value) {
