@@ -1,17 +1,21 @@
 package com.ananas.mn.core.client;
 
+import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.ananas.mn.core.spring.SpringBeanInvoker;
-//import org.springframework.jdbc.core.JdbcTemplate;
 
 public abstract class BaseJdbcTemplateClient {
 
     private static final String defaultJdbcTemplateName = "jdbcTemplate";
 
-    //public JdbcTemplate jdbcTemplate = null;//(JdbcTemplate) SpringBeanInvoker.getBean(defaultJdbcTemplateName);
+    private static JdbcTemplate jdbcTemplate = (JdbcTemplate) SpringBeanInvoker.getBean(defaultJdbcTemplateName);
 
 
-    public String getTestString(){
-        return "{\"a\":\"a\"}";
+    public static List getAllCache() {
+    	String sql = "select * from cache";
+    	return jdbcTemplate.queryForList(sql);
     }
 
 

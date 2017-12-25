@@ -8,22 +8,24 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
-public class AnanasContextListener extends ContextLoaderListener implements ServletContextListener{
+public class AnanasContextListener extends ContextLoaderListener{
 
     private AnanasContext ananasContext = new AnanasContext();
     protected transient final Log log = Log.getLogger(AnanasContextListener.class);
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        super.contextInitialized(event);
-
-        ServletContext servletContext = event.getServletContext();
-        ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-        ContextHolder.setApplicationContext(applicationContext);
+    	super.contextInitialized(event);
+		ServletContext context = event.getServletContext();
+		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+		ContextHolder.setApplicationContext(ctx);
        
-        initialize(ContextHolder.getApplicationContext());
+		System.out.println("----------start-------------");
+		
+        initialize(ctx);
+        
+        System.out.println("----------end----------------");
     }
 
     public void initialize(ApplicationContext applicationContext){
@@ -32,12 +34,4 @@ public class AnanasContextListener extends ContextLoaderListener implements Serv
         ananasContext.start();
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent event) {
-        destroy();
-    }
-
-    public void destroy(){
-        ananasContext.stop();
-    }
 }

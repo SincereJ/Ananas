@@ -1,20 +1,13 @@
 package com.ananas.mn.core.server;
 
 import com.ananas.mn.core.cache.CacheProxy;
-import com.ananas.mn.core.client.DefaultJdbcTemplateClient;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
-import java.util.Iterator;
-
+//import com.ananas.mn.core.client.DefaultJdbcTemplateClient;
 
 public class CacheServer extends DefaultServer {
 
 	//private Cache cache;
     //private CacheManager cacheManager = CacheManager.create();
-    private DefaultJdbcTemplateClient defaultJdbcTemplateClient = new DefaultJdbcTemplateClient();
+    //private DefaultJdbcTemplateClient defaultJdbcTemplateClient = new DefaultJdbcTemplateClient();
     
     //private static final String SYS_CACHE = "sysCache";
     
@@ -30,16 +23,16 @@ public class CacheServer extends DefaultServer {
     	//cacheManager.addCache(simpleCache);
     	//cache = cacheManager.getCache(SYS_CACHE);
     	
-    	cacheProxy.createCache();
+    	cacheProxy.initCache();
     }
 
 	@Override
     public void start() {
-		cacheProxy.initCache();
+		cacheProxy.loadCache();
     }
 
     @Override
     public void stop() {
-    	cacheProxy.destoryCache();
+    	//cacheProxy.destoryCache();
     }
 }

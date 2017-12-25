@@ -1,42 +1,40 @@
 package com.ananas.mn.core.cache;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.springframework.cache.ehcache.EhCacheCache;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
+import com.ananas.mn.core.client.DefaultJdbcTemplateClient;
 
 public class CacheProxy extends EhCacheImpl {
 
-
-	private Cache cache = (Cache) getEhcache();
-    private CacheManager cacheManager = CacheManager.create();
-    private static final String SYS_CACHE = "sysCache";
-    
+    //private BaseJdbcTemplateClient baseJdbcTemplateClient = new DefaultJdbcTemplateClient();
+	
 	public static CacheProxy getCacheProxyInstance() {
 		return cp.getCpIns();
 	}
 	
 	public void initCache() {
-		cache.put(new Element("testString","testString"));
-    	
-        @SuppressWarnings("rawtypes")
-		Iterator iterator = cache.getKeys().iterator();
-        while(iterator.hasNext()){
-           System.out.println(iterator.next());
-        }
+		CacheUtils.put("aa", "aa");
+		CacheUtils.put("bb", "bb");
+		CacheUtils.put("cc", "cc");
+		CacheUtils.put("dd", "dd");
 	}
 	
-	public void createCache() {
-		Cache simpleCache = new Cache(SYS_CACHE, 5000, false, false, 5, 2);
-    	cacheManager.addCache(simpleCache);
-    	cache = cacheManager.getCache(SYS_CACHE);
+	public void loadCache() {
+		List cacheList = DefaultJdbcTemplateClient.getAllCache();
+		
+		Iterator iterator = cacheList.iterator();
+		while(iterator.hasNext()) {
+			Map map = (Map) iterator.next();
+			String key = (String) map.get("name");
+			String value = (String) map.get("value");
+			CacheUtils.put(key, value);
+		}		
 	}
 	
 	public void destoryCache() {
-		cacheManager.removalAll();
+		//cacheManager.removalAll();
 	}
 	
 	

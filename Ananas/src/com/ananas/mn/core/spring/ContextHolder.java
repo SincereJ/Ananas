@@ -1,5 +1,6 @@
 package com.ananas.mn.core.spring;
 
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
 public class ContextHolder {
@@ -12,7 +13,7 @@ public class ContextHolder {
         return applicationContext;
     }
 
-    public static void setApplicationContext(ApplicationContext applicationContext) {
-        applicationContext = applicationContext;
+    public static void setApplicationContext(ApplicationContext ctx) throws BeansException {
+        applicationContext = ctx;
     }
 }
