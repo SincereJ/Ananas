@@ -18,5 +18,10 @@ public abstract class BaseJdbcTemplateClient {
     	return jdbcTemplate.queryForList(sql);
     }
 
+    
+    public static List getAllFileCache() {
+    	String sql = "select * from file where 1=1";
+    	return jdbcTemplate.queryForList(sql);
+    }
 
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import com.ananas.mn.core.engine.bean.AnanasFile;
 import com.ananas.mn.core.log.Log;
 
 public class FileCreatorImpl implements FileCreator {
@@ -15,46 +16,48 @@ public class FileCreatorImpl implements FileCreator {
     private static final Log log = Log.getLogger(FileCreatorImpl.class);
 
     @Override
-    public boolean create(File asFile) {
-        String filePath = asFile.getPath() + "\\" +asFile.getName() ;
-
+    public boolean create(AnanasFile ananasFile) {
+    	//String nodepath = this.getClass().getClassLoader().getResource("/").getPath();   
+    	//String filePaths = nodepath.substring(1, nodepath.length() - 16);  
+    	
+    	//System.out.println(filePaths);
+        	
+    	String filePath = "" + ananasFile.getFilePath();
+    	
+    	//add by jxx
+    	System.out.println(filePath);
+    	
         File file = new File(filePath);
         if (file.exists()) {
-     
-            return false;
+            //return false;
+        	file.delete();
         }
         if (filePath.endsWith(File.separator)) {
-
             return false;
         }
         if (!file.getParentFile().exists()) {
-  
             if (!file.getParentFile().mkdirs()) {
-             
                 return false;
             }
         }
         try {
             if (file.createNewFile()) {
-
-  
-                writeFileContent(filePath,"");
+                writeFileContent(file ,ananasFile.getFileContext());
                 return true;
-            } else {
-            
+            } else {        
                 return false;
             }
         } catch (IOException e) {
-            e.printStackTrace();
-  
+            //e.printStackTrace();  
+        	log.warn("", e);
             return false;
         }
     }
 
   
-    public static boolean writeFileContent(String filepath,String newstr) throws IOException{
+    public static boolean writeFileContent(File file, String fileContext) throws IOException{
         Boolean bool = false;
-        String filein = newstr+"\r\n";
+        String filein = fileContext+"\r\n";
         String temp  = "";
 
         FileInputStream fis = null;
@@ -63,17 +66,15 @@ public class FileCreatorImpl implements FileCreator {
         FileOutputStream fos  = null;
         PrintWriter pw = null;
         try {
-            File file = new File(filepath);
+            //File file = new File(filepath);
 
             fis = new FileInputStream(file);
             isr = new InputStreamReader(fis);
             br = new BufferedReader(isr);
             StringBuffer buffer = new StringBuffer();
-
            
             for(int i=0;(temp =br.readLine())!=null;i++){
-                buffer.append(temp);
-             
+                buffer.append(temp);             
                 buffer = buffer.append(System.getProperty("line.separator"));
             }
             buffer.append(filein);
@@ -84,7 +85,6 @@ public class FileCreatorImpl implements FileCreator {
             pw.flush();
             bool = true;
         } catch (Exception e) {
-
             e.printStackTrace();
         }finally {
          

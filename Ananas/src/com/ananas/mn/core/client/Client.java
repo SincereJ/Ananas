@@ -8,5 +8,5 @@ public interface Client {
 
 	 @SuppressWarnings("rawtypes")
 	 public List getAllCache();
-	
+	 
 }

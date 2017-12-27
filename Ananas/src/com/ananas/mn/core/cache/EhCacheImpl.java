@@ -61,17 +61,20 @@ public class EhCacheImpl implements  Cache<Object , Object> {
         return ehcache.getSize();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Set<Object> keySet() {
         Set<Object> set = new CopyOnWriteArraySet<Object>();
         set.addAll(ehcache.getKeys());
         return set;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Collection<Object> values() {
         List<Object> list = new ArrayList<Object>();
-        List keys = ehcache.getKeys();
+        @SuppressWarnings("rawtypes")
+		List keys = ehcache.getKeys();
         for (Iterator<Object> iter = keys.iterator(); iter.hasNext();) {
             Serializable key = (Serializable) iter.next();
             Element element = ehcache.get(key);

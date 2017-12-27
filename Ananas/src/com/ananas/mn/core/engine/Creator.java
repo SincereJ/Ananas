@@ -1,9 +1,9 @@
 package com.ananas.mn.core.engine;
 
-import java.io.File;
+import com.ananas.mn.core.engine.bean.AnanasFile;
 
 public interface Creator {
 
-    public boolean create(File asFile) ;
+    public boolean create(AnanasFile ananasFile) ;
 
 }

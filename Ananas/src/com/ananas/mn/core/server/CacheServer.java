@@ -29,6 +29,7 @@ public class CacheServer extends DefaultServer {
 	@Override
     public void start() {
 		cacheProxy.loadCache();
+		cacheProxy.loadFileCache();
     }
 
     @Override

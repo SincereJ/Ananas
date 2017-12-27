@@ -53,7 +53,7 @@
     <!-- mybatis -->
     <bean id="sqlMapClient" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:ibatis/client/sqlMapConfig.xml" />
+		<property name="configLocation" value="classpath:ibatis/sqlMapConfig.xml" />
 	</bean>
 	
 	<bean id="sqlMapClientTemplate" class="org.mybatis.spring.SqlSessionTemplate">
@@ -66,6 +66,7 @@
     </bean>
 	
 	
+	 
    
 	
 </beans>

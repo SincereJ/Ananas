@@ -6,22 +6,33 @@ import java.net.URL;
 
 import org.junit.Test;
 
+import com.ananas.mn.core.engine.Creator;
+import com.ananas.mn.core.engine.FileCreatorImpl;
+
 public class FileTest {
 
 	
 	@Test
 	public void createFile() throws IOException {
-		File file = new File("WebContent/WEB-INF/jsp/file.txt");
+		//File file = new File("WebContent/pages/file.txt");
+		
+		//Creator fileCreator = new FileCreatorImpl();
 		//System.out.println(file);
 		
 		//System.getProperty("user.dir");
 		
 		//URL webAppRootKey = FileTest.class.getClassLoader().getResource("");
 		//String webAppRootKey = System.getProperty("user.dir");
-		//System.out.println(webAppRootKey);
+		String webAppRootKey = this.getClass().getClassLoader().getResource("").getPath();
+		int index = webAppRootKey.lastIndexOf("Ananas");
+		webAppRootKey = webAppRootKey.substring(0, index+6);
+		//String webAppRootKey = this.getClass().getResource("").getPath();
+		System.out.println(webAppRootKey);
 		
 		//File file = new File(webAppRootKey+"/WebContent/WEB-INF/jsp/file.txt");
-		file.createNewFile();
+		
+		//AnanasFile ananasFile = new AnanasFile(file,"ssssssssssssffffffffffffffffffffdd");
+		//fileCreator.create(ananasFile);		
 	}
 	
 }

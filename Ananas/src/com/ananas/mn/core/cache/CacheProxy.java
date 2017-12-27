@@ -33,6 +33,12 @@ public class CacheProxy extends EhCacheImpl {
 		}		
 	}
 	
+	public void loadFileCache() {
+		List cacheList = DefaultJdbcTemplateClient.getAllFileCache();
+		
+		CacheUtils.put("file_list", cacheList);
+	}
+	
 	public void destoryCache() {
 		//cacheManager.removalAll();
 	}
