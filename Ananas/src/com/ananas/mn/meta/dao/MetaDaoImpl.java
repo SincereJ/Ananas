@@ -28,4 +28,9 @@ public class MetaDaoImpl extends BaseJdbcTemplateClient implements MetaDao {
     public int insertIntoMeta(String sqlId, Map parameterMap) {
     	return sqlMapClientTemplate.insert(sqlId, parameterMap);
     }
+    
+    @Override
+    public List getMetaList(String sqlId, Map parameterMap) {
+    	return sqlMapClientTemplate.selectList(sqlId, parameterMap);
+    }
 }

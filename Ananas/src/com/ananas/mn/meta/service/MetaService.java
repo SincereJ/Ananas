@@ -10,4 +10,6 @@ public interface MetaService {
 	
 	public int insertIntoMeta(Map parameterMap) ;
 	
+	public List getMetaList(Map parameterMap);
+	
 }

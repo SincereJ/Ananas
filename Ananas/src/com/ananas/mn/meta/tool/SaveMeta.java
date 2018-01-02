@@ -1,12 +1,14 @@
 package com.ananas.mn.meta.tool;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ananas.mn.meta.service.MetaService;
 
@@ -35,5 +37,14 @@ public class SaveMeta {
 		
 		return "hello";
 	}
+	
+	
+	@RequestMapping("/getDivMeta")
+	public @ResponseBody List getDivMeta() {
+		List metaList = metaService.getMetaList(null);
+		return metaList;
+	}
+	
+	
 	
 }

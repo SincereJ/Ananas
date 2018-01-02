@@ -9,4 +9,7 @@ public interface MetaDao {
 
     
     public int insertIntoMeta(String sqlId, Map parameterMap);
+    
+    
+    public List getMetaList(String sqlId, Map parameterMap);
 }

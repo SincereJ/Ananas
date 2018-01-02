@@ -1,5 +1,6 @@
 package com.ananas.mn.meta.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -24,5 +25,10 @@ public class MetaServiceImpl implements MetaService {
     @Override
     public int insertIntoMeta(Map parameterMap) {
     	return metaDao.insertIntoMeta("ananas.meta.insertIntoMeta", parameterMap);
+    }
+    
+    @Override
+    public List getMetaList(Map parameterMap) {
+    	return metaDao.getMetaList("ananas.meta.getMetaList", parameterMap);
     }
 }
