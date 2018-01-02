@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ananas.meta" >
+	
+   
+   <insert id="insertIntoMeta" parameterType="java.util.Map">
+   		<![CDATA[
+			 insert into meta(name,context)
+			 values(#{name},#{context})
+		]]>
+   </insert>
+   
+   <select id="getMetaList" parameterType="java.util.Map" resultType="java.util.Map">
+   		<![CDATA[
+   			select me.* from meta me where 1=1 
+   		]]>
+   </select>
+   
+   
+</mapper>
