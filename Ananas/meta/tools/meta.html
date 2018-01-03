@@ -3,26 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- jquery -->
 <script type="text/javascript" src="../../js/third-lib/jquery-3.2.1/jquery-3.2.1.js"></script>
+
+<!-- angular -->
 <script type="text/javascript" src="../../js/third-lib/angular-1.5.8//angular.js"></script>
+
+<!-- bootstrap js -->
+<script type="text/javascript" src="../../js/third-lib/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+
+<!-- angular tree control -->
+<script type="text/javascript" src="../../js/third-lib/angular-tree-control/angular-tree-control.js"></script>
+
 <script type="text/javascript" src="../../js/owner-lib/meta.js"></script>
 
+<!-- bootstrap css -->
+<link rel="stylesheet" href="../../js/third-lib/bootstrap-3.3.7/dist/css/bootstrap.css" type="text/css"></link>
+
+<!-- angular tree control -->
+<link rel="stylesheet" href="../../js/third-lib/angular-tree-control/css/tree-control.css" type="text/css"></link>
+<link rel="stylesheet" href="../../js/third-lib/angular-tree-control/css/tree-control-attribute.css" type="text/css"></link>
 
 </head>
 <body ng-app="ananasApp" ng-controller="ananasCtrl">
 	
-	<div >
-		<p>{{resultData.name}}</p>
-		<p><textarea ng-model="resultData.context" cols="40" rows="10"></textarea></p>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-push-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<textarea ng-model="resultData.context" cols="70" rows="10" style="height:100%;width:100%;"></textarea>
+			</div>
+			<div class="col-md-6 col-md-pull-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<select ng-model="metaDiv" ng-change="dipaly()" ng-options="mDiv.name for mDiv in metaDivList">
+					<option value="">请选择</option>
+				</select>
+			</div>
+		</div>
+	    <br>
+	    <div>
+			<button ng-click="save()">获得</button>
+			<button ng-click="dipaly()">展示</button>
+			<button ng-click="subt()">提交</button>
+			<button ng-click="goMeta()">跳转</button>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<treecontrol class="tree-classic"
+				   tree-model="dataForTheTree"
+				   options="treeOptions"
+				   on-selection="showSelected(node)"
+				   selected-node="node1">
+				   employee: {{node.name}} age {{node.age}}
+				</treecontrol>
+			</div>
+			<div class="col-md-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<table>
+					<tr>
+						<td>new Name:</td>
+						<td><input type="text" ng-model="newMetaContext.newname" value=""></input></td>
+					</tr>
+					<tr ng-repeat="x in metaContext.prop">
+						<td>{{x.name}} :</td>
+						<td><input type="text" ng-model="newMetaContext.prop[x.name]" value=""/></td>
+					</tr>
+				</table>						
+			</div>
+		</div>
 	</div>
-	
-	<div ng-show="display">
-		<p><input type="text" ng-model="newMetaContext.newname" value=""></input></p>
-		<p>name : {{metaContext.temp}}</p>
-		<p ng-repeat="x in metaContext.prop">{{x.name}} : <input type="text" ng-model="newMetaContext.prop[x.name]" value=""/></p>
-	</div>
-	<button ng-click="save()">获得</button>
-	<button ng-click="dipaly()">展示</button>
-	<button ng-click="subt()">提交</button>
+
 </body>
 </html>

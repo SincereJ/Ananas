@@ -1,14 +1,21 @@
 (function(){
-	var ananasApp = angular.module("ananasApp",["ng"]);
+	var ananasApp = angular.module("ananasApp",["ng","treeControl"]);
 	
-	ananasApp.controller("ananasCtrl", function($scope,$http) {
+	ananasApp.controller("ananasCtrl", function($scope,$http,$location) {
 		
 		$scope.resultData = {};
 		$scope.display = false;
 		$scope.newMetaContext = {};
 		
-	    $scope.save = function (){
-	    	init($scope);
+		$scope.metaDiv;
+		//$scope.metaDivList = [];
+		
+	    //$scope.save = function (){
+	    init($scope);
+	    //}
+	    
+	    $scope.goMeta = function(){
+	    	//$location.path("../../metaIndx.html");
 	    }
 	
 	    function init (_$scope){
@@ -21,8 +28,7 @@
 		        if(response != null && response.status == 200){
 		    		var resData = response.data;
 		    		if(resData != undefined){
-		    			_$scope.resultData.name = resData[0].name;
-		    			_$scope.resultData.context = resData[0].context;
+		    			$scope.metaDivList = resData;
 		    		}
 		    	}
 		        
@@ -32,6 +38,9 @@
 		}
 	    
 	    $scope.dipaly = function (){
+	    	$scope.resultData.name = $scope.metaDiv.name;
+			$scope.resultData.context = $scope.metaDiv.context;
+	    	
 	    	$scope.display = !$scope.display;
 	    	var metaContext = angular.fromJson($scope.resultData.context);
 	    	console.log(metaContext);
@@ -72,6 +81,40 @@
 	    	console.log(subResultData);
 	    	
 	    }
+	    
+	    //tree
+	    $scope.showSelected = function(sel) {
+	        $scope.selectedNode = sel;
+	    };
+	    
+	    $scope.treeOptions = {
+    	    nodeChildren: "children",
+    	    dirSelectable: true,
+    	    injectClasses: {
+    	        ul: "a1",
+    	        li: "a2",
+    	        liSelected: "a7",
+    	        iExpanded: "a3",
+    	        iCollapsed: "a4",
+    	        iLeaf: "a5",
+    	        label: "a6",
+    	        labelSelected: "a8"
+    	    }
+    	};
+    	$scope.dataForTheTree =
+    	[
+    	    { "name" : "Joe", "age" : "21", "children" : [
+    	        { "name" : "Smith", "age" : "42", "children" : [] },
+    	        { "name" : "Gary", "age" : "21", "children" : [
+    	            { "name" : "Jenifer", "age" : "23", "children" : [
+    	                { "name" : "Dani", "age" : "32", "children" : [] },
+    	                { "name" : "Max", "age" : "34", "children" : [] }
+    	            ]}
+    	        ]}
+    	    ]},
+    	    { "name" : "Albert", "age" : "33", "children" : [] },
+    	    { "name" : "Ron", "age" : "29", "children" : [] }
+    	];
 
 	});
 	

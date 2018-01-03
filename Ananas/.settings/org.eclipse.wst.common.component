@@ -5,6 +5,9 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/config"/>
+        <wb-resource deploy-path="/js" source-path="/js"/>
+        <wb-resource deploy-path="/meta" source-path="/meta"/>
+        <wb-resource deploy-path="/css" source-path="/css"/>
         <property name="java-output-path" value="/Ananas/build/classes"/>
         <property name="context-root" value="Ananas"/>
     </wb-module>
