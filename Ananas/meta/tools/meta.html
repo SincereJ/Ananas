@@ -33,17 +33,27 @@
 				<textarea ng-model="resultData.context" cols="70" rows="10" style="height:100%;width:100%;"></textarea>
 			</div>
 			<div class="col-md-6 col-md-pull-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
-				<select ng-model="metaDiv" ng-change="dipaly()" ng-options="mDiv.name for mDiv in metaDivList">
-					<option value="">请选择</option>
-				</select>
+				<table>
+					<tr>
+						<td>
+							<select ng-model="metaDiv" ng-options="mDiv.name for mDiv in metaDivList">
+								<option value="">请选择</option>
+							</select>
+						</td>
+						<td style="float:right">
+							<button ng-click="divAdd()">divAdd</button>
+						</td>
+					</tr>
+				
+				</table>
 			</div>
 		</div>
 	    <br>
-	    <div>
+	    <div>{{selectedNode.name}}
 			<button ng-click="save()">获得</button>
 			<button ng-click="dipaly()">展示</button>
-			<button ng-click="subt()">提交</button>
-			<button ng-click="goMeta()">跳转</button>
+			<button ng-click="applyDiv()">提交</button>
+			<button ng-click="prewView()">预览</button>
 		</div>
 		<br>
 		<div class="row">
@@ -53,15 +63,16 @@
 				   options="treeOptions"
 				   on-selection="showSelected(node)"
 				   selected-node="node1">
-				   employee: {{node.name}} age {{node.age}}
+				   {{node.name}} : {{node.type}}
 				</treecontrol>
 			</div>
 			<div class="col-md-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 				<table>
 					<tr>
-						<td>new Name:</td>
-						<td><input type="text" ng-model="newMetaContext.newname" value=""></input></td>
+						<td>Div Name:</td>
+						<td><input type="text" ng-model="newMetaContext.newname" value=""></td>
 					</tr>
+					<tr><td>&nbsp;</td></tr>
 					<tr ng-repeat="x in metaContext.prop">
 						<td>{{x.name}} :</td>
 						<td><input type="text" ng-model="newMetaContext.prop[x.name]" value=""/></td>

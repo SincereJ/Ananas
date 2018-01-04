@@ -12,4 +12,10 @@ public interface MetaDao {
     
     
     public List getMetaList(String sqlId, Map parameterMap);
+    
+    public int insertIntoMetaConfig(String sqlId, Map parameterMap);
+    
+    public int insertIntoMetaInst(String sqlId,  Map parameterMap);
+    
+    public Map getMetaInstByName(String sqlId, Map parameterMap);
 }

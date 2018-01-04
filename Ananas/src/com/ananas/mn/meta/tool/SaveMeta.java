@@ -7,10 +7,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ananas.mn.meta.service.MetaService;
+import com.ananas.mn.meta.wrap.wrapper.DivWrapper;
+import com.ananas.mn.meta.wrap.wrapper.Wrapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
 @RequestMapping("/meta")
@@ -45,6 +50,32 @@ public class SaveMeta {
 		return metaList;
 	}
 	
+	@RequestMapping(value = "/saveMetaDivInst" , method = {RequestMethod.POST})
+	@ResponseBody
+	public void saveMetaDivInst(@RequestBody Map request){
+		
+		try {
+			metaService.saveMetaDivInst(request);
+		} catch (JsonProcessingException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
 	
+	@RequestMapping(value = "/prewViewMetaDivInst", method = {RequestMethod.POST})
+	@ResponseBody
+	public boolean prewViewMetaDivInst(@RequestBody Map request) {
+		
+		Map meta = metaService.getMetaInstByName(request);
+		
+		DivWrapper wrapper = new DivWrapper();
+		
+		wrapper.setMeta(meta);
+		wrapper.begin();
+		
+		return true;
+		
+	}
 	
 }

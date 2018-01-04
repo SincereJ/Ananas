@@ -39,13 +39,14 @@
 	    
 	    $scope.dipaly = function (){
 	    	$scope.resultData.name = $scope.metaDiv.name;
-			$scope.resultData.context = $scope.metaDiv.context;
+			//$scope.resultData.context = $scope.metaDiv.context;
 	    	
 	    	$scope.display = !$scope.display;
-	    	var metaContext = angular.fromJson($scope.resultData.context);
+	    	var metaContext = angular.fromJson($scope.metaDiv.context);
 	    	console.log(metaContext);
 	    	//var props = metaContext.prop;
 	    	//var temp = metaContext.temp;
+	    	$scope.resultData.context = metaContext.temp;
 	    	
 	    	$scope.metaContext = metaContext;
 	    }
@@ -78,7 +79,66 @@
 	    	subItemTemp.prop = subItemProp;
 	    	subResultData.context.push(subItemTemp);
 	    	
-	    	console.log(subResultData);
+	    	//console.log(subResultData);
+	    	$scope.subResultData = subResultData;
+	    	
+	    }
+	    
+	    $scope.divAdd = function(){
+	    	$scope.dipaly();
+	    }
+	    
+	    $scope.applyDiv = function(){
+	    	$scope.subt();
+	    	
+	    	var treeObj = {"name":$scope.newMetaContext.newname,"type":$scope.metaDiv.name,children:[]};
+	    	$scope.selectedNode.children.push(treeObj);
+	    	
+	    	console.log($scope.dataForTheTree);
+	    	console.log($scope.subResultData);
+	    	
+	    	$http({
+			    method: 'POST',
+			    url: 'http://localhost:8080/Ananas/meta/saveMetaDivInst',
+			    data:{"configMeta":{"name":$scope.newMetaContext.newname,"treeConfig":$scope.dataForTheTree},"inst":$scope.subResultData},
+			    dataType:"json",      
+	            contentType:"application/json"
+			}).then(function successCallback(response) {
+		        console.log(response);
+		        
+		        if(response != null && response.status == 200){
+		    		var resData = response.data;
+		    		if(resData != undefined){
+		    			$scope.metaDivList = resData;
+		    		}
+		    	}
+		        
+		    }, function errorCallback(response) {
+		    	//console.log(response);
+			})
+	    	
+	    }
+	    
+	    $scope.prewView = function(){
+	    	$http({
+			    method: 'POST',
+			    url: 'http://localhost:8080/Ananas/meta/prewViewMetaDivInst',
+			    data:{"name":"a"},
+			    dataType:"json",      
+	            contentType:"application/json"
+			}).then(function successCallback(response) {
+		        console.log(response);
+		        
+		        if(response != null && response.status == 200){
+		    		var resData = response.data;
+		    		if(resData != undefined){
+		    			$scope.metaDivList = resData;
+		    		}
+		    	}
+		        
+		    }, function errorCallback(response) {
+		    	//console.log(response);
+			})
 	    	
 	    }
 	    
@@ -101,7 +161,13 @@
     	        labelSelected: "a8"
     	    }
     	};
-    	$scope.dataForTheTree =
+	    
+	    var dataForTheTree = [{"name":"root","type":"root","children":[]}];
+	    
+	    $scope.dataForTheTree = dataForTheTree;
+	    
+	    
+    	/*$scope.dataForTheTree =
     	[
     	    { "name" : "Joe", "age" : "21", "children" : [
     	        { "name" : "Smith", "age" : "42", "children" : [] },
@@ -115,7 +181,7 @@
     	    { "name" : "Albert", "age" : "33", "children" : [] },
     	    { "name" : "Ron", "age" : "29", "children" : [] }
     	];
-
+*/
 	});
 	
 })();

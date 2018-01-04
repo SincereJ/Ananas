@@ -16,5 +16,25 @@
    		]]>
    </select>
    
+   <insert id="insertIntoMetaConfig" parameterType="java.util.Map">
+   		<![CDATA[
+			 insert into config_meta(name,treeConfig,sqlConfig)
+			 values(#{name},#{treeConfig},'')
+		]]>
+   </insert>
+   
+   <insert id="insertIntoMetaInst" parameterType="java.util.Map">
+   		<![CDATA[
+			 insert into inst_meta(name,context)
+			 values(#{name},#{context})
+		]]>
+   </insert>   
+   
+   <select id="getMetaInstByName" parameterType="java.util.Map" resultType="java.util.Map">
+   		<![CDATA[
+   			select me.* from inst_meta me where 1=1 and me.name = #{name}
+   		]]>
+   </select>
+   
    
 </mapper>

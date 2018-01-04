@@ -8,5 +8,5 @@ public interface Interpreter {
 	
 	
 	
-	public boolean parse(List metaList);
+	
 }
