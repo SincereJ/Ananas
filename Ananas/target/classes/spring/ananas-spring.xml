@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:annotation-config/>
+
+	<bean id="propertyConfigurer" class="com.ananas.mn.core.config.ConfigProxyHolder">
+        <property name="location">
+            <value>classpath:properties/db.properties</value>
+        </property>
+   	</bean>
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache/ananas-ehcache.xml"/>
+    </bean>
+    
+    <!-- <context:property-placeholder location="classpath:properties/db.properties"/> -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		   	<property name="driverClassName" value="${driverClassName}"/>
+		   	<property name="url" value="${url}"/>
+		 	<property name="username" value="${username}"/>
+			 <property name="password" value="${password}"/>
+		 	<property name="initialSize" value="${initialSize}"/>
+			<property name="maxActive" value="${maxActive}"/>
+		 	<property name="maxIdle" value="${maxIdle}"/>
+		 	<property name="minIdle" value="${minIdle}"/>
+	</bean>
+	
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
+        <property name="dataSource" ref="dataSource"></property>  
+    </bean>  
+      
+    <!-- <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">  
+        <constructor-arg ref="dataSource"></constructor-arg>      
+    </bean> -->  
+      
+      
+    <!-- transcation -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource"></property>  
+    </bean>  
+      
+    <tx:annotation-driven transaction-manager="transactionManager"/>  
+    
+    <!-- mybatis -->
+    <bean id="sqlMapClient" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:ibatis/sqlMapConfig.xml" />
+	</bean>
+	
+	<bean id="sqlMapClientTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlMapClient" />
+	</bean>	
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="com.ananas.mn.core.client" />  
+        <property name="sqlSessionFactoryBeanName" value="sqlMapClient"></property>  
+    </bean>
+	
+	
+	 
+   
+	
+</beans>

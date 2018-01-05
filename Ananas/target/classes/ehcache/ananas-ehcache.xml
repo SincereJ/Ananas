@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="defaultCache">
+    <diskStore path="../temp/jeesite/ehcache" />
+    <defaultCache eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="sysCache" eternal="true" overflowToDisk="true"/>
+
+       
+</ehcache>
