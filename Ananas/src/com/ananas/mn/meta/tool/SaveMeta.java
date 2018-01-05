@@ -26,25 +26,25 @@ public class SaveMeta {
 	
 	@RequestMapping("/saveMeta")
 	public String saveMeta(ModelMap modelMap) {
-		String context = "";
 		
-		context += "{\"temp\":\"<div id='divId' name='divName' class='divClass' style='background-color:greey'></div>\",\"prop\":[{\"name\":\"id\"},{\"name\":\"name\"},{\"name\":\"class\"},{\"name\":\"style\"}]}";
-		
+		String temp = "{\"temp\":\"<div id='divId' name='divName' class='divClass' style='background-color:greey'></div>\"}";
+		String prop = "{\"prop\":[{\"name\":\"id\"},{\"name\":\"name\"},{\"name\":\"class\"},{\"name\":\"style\"}]}";
+		String name = "metaDiv";
 		
 		Map<String, Object> map = new HashMap() ;
 			
-		map.put("name", "metaDiv");
-		map.put("context", context);
+		map.put("name", name);
+		map.put("temp", temp);
+		map.put("prop", prop);
 		
 		int index = metaService.insertIntoMeta(map);
 		
-		  modelMap.put("msg", "Hello!:"+index);  
+		modelMap.put("msg", "Hello!:"+index);  
 		
 		return "hello";
 	}
 	
-	
-	@RequestMapping("/getDivMeta")
+	@RequestMapping(value = "/getDivMeta" , method = {RequestMethod.POST})
 	public @ResponseBody List getDivMeta() {
 		List metaList = metaService.getMetaList(null);
 		return metaList;

@@ -2,37 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ananas.meta" >
 	
+   <resultMap type="com.ananas.mn.core.bean.MetaModelResultType" id="MetaModelResultMap">
+	   <result property="name" column="name"/>
+	   <result property="temp" column="temp"/>
+	   <result property="prop" column="prop" typeHandler="com.ananas.mn.mybatis.type.JsonTypeHandler"/>
+   </resultMap>
    
    <insert id="insertIntoMeta" parameterType="java.util.Map">
    		<![CDATA[
-			 insert into meta(name,context)
-			 values(#{name},#{context})
+			 insert into meta_model(name,temp,prop)
+			 values(#{name},#{temp},#{prop})
 		]]>
    </insert>
    
-   <select id="getMetaList" parameterType="java.util.Map" resultType="java.util.Map">
+   <select id="getMetaList" parameterType="java.util.Map" resultMap="MetaModelResultMap">
    		<![CDATA[
-   			select me.* from meta me where 1=1 
+   			select me.* from meta_model me where 1=1 
    		]]>
    </select>
    
    <insert id="insertIntoMetaConfig" parameterType="java.util.Map">
    		<![CDATA[
-			 insert into config_meta(name,treeConfig,sqlConfig)
+			 insert into meta_config(name,treeConfig,sqlConfig)
 			 values(#{name},#{treeConfig},'')
 		]]>
    </insert>
    
    <insert id="insertIntoMetaInst" parameterType="java.util.Map">
    		<![CDATA[
-			 insert into inst_meta(name,context)
-			 values(#{name},#{context})
+			 insert into meta_model_inst(name,temp,prop)
+			 values(#{name},#{temp},#{prop})
 		]]>
    </insert>   
    
    <select id="getMetaInstByName" parameterType="java.util.Map" resultType="java.util.Map">
    		<![CDATA[
-   			select me.* from inst_meta me where 1=1 and me.name = #{name}
+   			select me.* from meta_model_inst me where 1=1 and me.name = #{name}
    		]]>
    </select>
    

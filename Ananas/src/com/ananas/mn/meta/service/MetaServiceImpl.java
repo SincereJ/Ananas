@@ -48,8 +48,8 @@ public class MetaServiceImpl implements MetaService {
     	String treeConfigJson =  objectMapper.writeValueAsString(configMeta.get("treeConfig"));
     	configMeta.put("treeConfig", treeConfigJson);
     	
-    	String instContextJson = objectMapper.writeValueAsString(inst.get("context"));
-    	inst.put("context", instContextJson);
+    	String instPropJson = objectMapper.writeValueAsString(inst.get("prop"));
+    	inst.put("prop", instPropJson);
 			
     	metaDao.insertIntoMetaConfig("ananas.meta.insertIntoMetaConfig", configMeta);
     	metaDao.insertIntoMetaInst("ananas.meta.insertIntoMetaInst", inst);

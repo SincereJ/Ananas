@@ -30,7 +30,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-push-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
-				<textarea ng-model="resultData.context" cols="70" rows="10" style="height:100%;width:100%;"></textarea>
+				<textarea ng-model="metaDiv.temp" cols="70" rows="10" style="height:100%;width:100%;"></textarea>
 			</div>
 			<div class="col-md-6 col-md-pull-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 				<table>
@@ -40,9 +40,7 @@
 								<option value="">请选择</option>
 							</select>
 						</td>
-						<td style="float:right">
-							<button ng-click="divAdd()">divAdd</button>
-						</td>
+						
 					</tr>
 				
 				</table>
@@ -50,9 +48,7 @@
 		</div>
 	    <br>
 	    <div>{{selectedNode.name}}
-			<button ng-click="save()">获得</button>
-			<button ng-click="dipaly()">展示</button>
-			<button ng-click="applyDiv()">提交</button>
+	    	<button ng-click="applyDiv()">保存</button>
 			<button ng-click="prewView()">预览</button>
 		</div>
 		<br>
@@ -69,13 +65,13 @@
 			<div class="col-md-6" style="background-color: #dedef8; height:211px; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 				<table>
 					<tr>
-						<td>Div Name:</td>
-						<td><input type="text" ng-model="newMetaContext.newname" value=""></td>
+						<td>Div Inst Name:</td>
+						<td><input type="text" ng-model="metaModelInst.name" value=""></td>
 					</tr>
 					<tr><td>&nbsp;</td></tr>
-					<tr ng-repeat="x in metaContext.prop">
+					<tr ng-repeat="x in metaDiv.prop">
 						<td>{{x.name}} :</td>
-						<td><input type="text" ng-model="newMetaContext.prop[x.name]" value=""/></td>
+						<td><input type="text" ng-model="metaModelInst.prop[x.name]" value=""/></td>
 					</tr>
 				</table>						
 			</div>

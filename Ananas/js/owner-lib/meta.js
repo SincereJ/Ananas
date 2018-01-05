@@ -1,145 +1,106 @@
 (function(){
 	var ananasApp = angular.module("ananasApp",["ng","treeControl"]);
 	
-	ananasApp.controller("ananasCtrl", function($scope,$http,$location) {
-		
-		$scope.resultData = {};
-		$scope.display = false;
-		$scope.newMetaContext = {};
-		
-		$scope.metaDiv;
-		//$scope.metaDivList = [];
-		
-	    //$scope.save = function (){
-	    init($scope);
-	    //}
-	    
-	    $scope.goMeta = function(){
-	    	//$location.path("../../metaIndx.html");
-	    }
+	ananasApp.controller("ananasCtrl",ananasCtrl);
+	ananasApp.service("ananasService",ananasService);
 	
-	    function init (_$scope){
-			$http({
-			    method: 'POST',
-			    url: 'http://localhost:8080/Ananas/meta/getDivMeta'
-			}).then(function successCallback(response) {
-		        console.log(response);
-		        
-		        if(response != null && response.status == 200){
-		    		var resData = response.data;
-		    		if(resData != undefined){
-		    			$scope.metaDivList = resData;
+	ananasService.$inject = ['$http'];
+	function ananasService($http){	
+		
+		//var url = "http://localhost:8080/Ananas/";
+		var defaultHeader = {
+				method : "POST",
+				dataType:"json",      
+	            contentType:"application/json"
+		};
+		
+		
+		this.anajax = anajax;
+		function anajax(header,success,error){
+			$http(angular.extend(defaultHeader,header)).then(function successCallback(response) {
+		        if(response != null && response.status == 200){		    
+		    		if(response.data != undefined){
+		    			success(response.data);
 		    		}
-		    	}
-		        
+		    	}    
 		    }, function errorCallback(response) {
-		    	//console.log(response);
+		    	error(response);
 			})
 		}
+	}
+	
+	ananasCtrl.$inject = ['$scope','$location','ananasService'];
+	function ananasCtrl($scope,$location,ananasService){
+		
+		//$scope.resultData = {};
+		//$scope.display = false;
+		//$scope.newMetaContext = {};
+		
+		$scope.metaModelInst = {};  //meta 模板实例存储数据模型
+		
+		//$scope.metaDiv;            //选择中 div模板
+		//$scope.metaDivList = [];   //div 列表
+		
+		//启动时 加载div list 列表
+		initController($scope);
 	    
+	    
+	    function initController(_$scope){
+	    	ananasService.anajax({
+			    url: 'http://localhost:8080/Ananas/meta/getDivMeta'
+			},function(data){	
+				_$scope.metaDivList = data; 
+				console.log(_$scope.metaDivList);
+			},function(response){
+				console.log(response);
+			})
+	    };
+	    
+	
+	   
 	    $scope.dipaly = function (){
-	    	$scope.resultData.name = $scope.metaDiv.name;
+	    	//$scope.resultData.name = $scope.metaDiv.name;
 			//$scope.resultData.context = $scope.metaDiv.context;
 	    	
-	    	$scope.display = !$scope.display;
-	    	var metaContext = angular.fromJson($scope.metaDiv.context);
-	    	console.log(metaContext);
+	    	//$scope.display = !$scope.display;
+	    	//var metaContext = angular.fromJson($scope.metaDiv.context);
+	    	//console.log(metaContext);
 	    	//var props = metaContext.prop;
 	    	//var temp = metaContext.temp;
-	    	$scope.resultData.context = metaContext.temp;
+	    	//$scope.resultData.context = metaContext.temp;
 	    	
-	    	$scope.metaContext = metaContext;
+	    	//$scope.metaContext = metaContext;
 	    }
-	    
-	    $scope.subt = function(){
-	    	console.log($scope.newMetaContext);
-	    	
-	    	var　subMeta = $scope.newMetaContext;
-	    	
-	    	var metaContext = $scope.metaContext;
-	    	//$scope.resultData.name = 
-	    	rebuild(subMeta);
-	    	
-	    }
-	    
-	    function rebuild(subMeta){
-	    	var subResultData = {};
-	    	subResultData.name = subMeta.newname;
-	    	subResultData.context = [];
-	    	var subItemTemp = {"temp":$scope.metaContext.temp};
-	    	var subItemProp = {};
-	    	
-	    	/*angular.forEach(subMeta.prop,function(pp){
-	    		subItemProp[pp] = subMeta.prop[pp];
-	    	});*/
-	    	
-	    	for (x in subMeta.prop){
-	    		subItemProp[x] = subMeta.prop[x];
-	    	}
-	    	subItemTemp.prop = subItemProp;
-	    	subResultData.context.push(subItemTemp);
-	    	
-	    	//console.log(subResultData);
-	    	$scope.subResultData = subResultData;
-	    	
-	    }
-	    
-	    $scope.divAdd = function(){
-	    	$scope.dipaly();
-	    }
+
 	    
 	    $scope.applyDiv = function(){
-	    	$scope.subt();
+	    	$scope.metaModelInst.temp = $scope.metaDiv.temp;
 	    	
-	    	var treeObj = {"name":$scope.newMetaContext.newname,"type":$scope.metaDiv.name,children:[]};
+	    	var treeObj = {"name":$scope.metaModelInst.name,"type":$scope.metaDiv.name,children:[]};
 	    	$scope.selectedNode.children.push(treeObj);
 	    	
 	    	console.log($scope.dataForTheTree);
 	    	console.log($scope.subResultData);
 	    	
-	    	$http({
-			    method: 'POST',
-			    url: 'http://localhost:8080/Ananas/meta/saveMetaDivInst',
-			    data:{"configMeta":{"name":$scope.newMetaContext.newname,"treeConfig":$scope.dataForTheTree},"inst":$scope.subResultData},
-			    dataType:"json",      
-	            contentType:"application/json"
-			}).then(function successCallback(response) {
-		        console.log(response);
-		        
-		        if(response != null && response.status == 200){
-		    		var resData = response.data;
-		    		if(resData != undefined){
-		    			$scope.metaDivList = resData;
-		    		}
-		    	}
-		        
-		    }, function errorCallback(response) {
-		    	//console.log(response);
+	    	ananasService.anajax({
+	    		url: 'http://localhost:8080/Ananas/meta/saveMetaDivInst',
+			    data:{"configMeta":{"name":$scope.metaModelInst.name,"treeConfig":$scope.dataForTheTree},"inst":$scope.metaModelInst}
+			},function(data){	
+				console.log(data);
+			},function(response){
+				console.log(response);
 			})
-	    	
 	    }
 	    
 	    $scope.prewView = function(){
-	    	$http({
-			    method: 'POST',
-			    url: 'http://localhost:8080/Ananas/meta/prewViewMetaDivInst',
-			    data:{"name":"a"},
-			    dataType:"json",      
-	            contentType:"application/json"
-			}).then(function successCallback(response) {
-		        console.log(response);
-		        
-		        if(response != null && response.status == 200){
-		    		var resData = response.data;
-		    		if(resData != undefined){
-		    			$scope.metaDivList = resData;
-		    		}
-		    	}
-		        
-		    }, function errorCallback(response) {
-		    	//console.log(response);
+	    	ananasService.anajax({
+	    		url: 'http://localhost:8080/Ananas/meta/prewViewMetaDivInst',
+			    data:{"name":"a"}
+			},function(data){	
+				console.log(data);
+			},function(response){
+				console.log(response);
 			})
-	    	
 	    }
 	    
 	    //tree
@@ -182,6 +143,6 @@
     	    { "name" : "Ron", "age" : "29", "children" : [] }
     	];
 */
-	});
+	}
 	
 })();
